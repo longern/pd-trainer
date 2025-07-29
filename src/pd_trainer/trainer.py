@@ -119,7 +119,9 @@ class PDDataCollator:
                 ).detach()
 
         if collated[0].get("labels"):
-            labels = pad_mask("labels", padding_value=-100, padding_side="right").to("cpu")
+            labels = pad_mask("labels", padding_value=-100, padding_side="right").to(
+                "cpu"
+            )
         else:
             labels = None
 
@@ -148,11 +150,15 @@ class PDTrainer(SFTTrainer):
             else:
                 model = kwargs.get("model") or args[0]
                 is_model_str = isinstance(model, str)
-                is_peft_model = kwargs.get("peft_config") is not None or _is_peft_model(model)
+                is_peft_model = kwargs.get("peft_config") is not None or _is_peft_model(
+                    model
+                )
 
                 # LoRA allows using the base model as the reference model.
                 if not is_peft_model:
-                    logging.warning("Using training model itself as the reference model is dangerous.")
+                    logging.warning(
+                        "Using training model itself as the reference model is dangerous."
+                    )
 
             tokenizer = kwargs.get("processing_class")
             kwargs["data_collator"] = PDDataCollator(model, tokenizer)
