@@ -140,6 +140,9 @@ class PDDataCollator:
 
 
 class PDTrainer(SFTTrainer):
+
+    _tag_names = ["trl", "pd"]
+
     def __init__(self, *args, **kwargs):
         is_model_str = False
 
